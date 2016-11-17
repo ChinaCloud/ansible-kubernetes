@@ -1,0 +1,75 @@
+---
+
+# check variables
+- fail: msg="Bailing out. this play requires 'registry_host'"
+  when: registry_host is not defined
+
+- fail: msg="Bailing out. this play requires 'registry_port'"
+  when: registry_port is not defined
+
+# tasks
+- name: create /opt/bin directory
+  file: path=/opt/bin state=directory mode=0755
+
+- name: copy flanneld
+  copy: src=flanneld-{{ flanneld_version }} dest=/opt/bin/flanneld mode=0755
+
+- name: copy kubelet
+  copy: src=kubelet-{{ k8s_version }} dest=/opt/bin/kubelet mode=0755
+
+- name: copy kube-dns
+  copy: src=kube-dns-{{ k8s_version }} dest=/opt/bin/kube-dns mode=0755
+
+- name: copy kubectl
+  copy: src=kubectl-{{ k8s_version }} dest=/opt/bin/kubectl mode=0755
+
+- name: copy kubectl
+  copy: src=kubectl-{{ k8s_version }} dest=/usr/local/bin/kubectl mode=0755
+
+- name: copy wupiao
+  copy: src=wupiao dest=/opt/bin/wupiao mode=0755
+
+- name: write flanneld.service
+  template: src=flanneld.service.j2 dest=/etc/systemd/system/flanneld.service
+
+- name: write docker.service
+  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+
+- name: write kube-kubelet.service file
+  template: src=kube-kubelet.service.j2 dest=/etc/systemd/system/kube-kubelet.service
+
+- name: write kube-dns.service file
+  template: src=kube-dns.service.j2 dest=/etc/systemd/system/kube-dns.service
+
+- name: delete /etc/kubernetes/manifests directory
+  file: path=/etc/kubernetes/manifests state=absent
+
+- name: create /etc/kubernetes/manifests directory
+  file: path=/etc/kubernetes/manifests state=directory mode=0755
+
+- name: write kube-apiserver.yaml file
+  template: src=kube-apiserver.yaml.j2 dest=/etc/kubernetes/manifests/kube-apiserver.yaml
+
+- name: write kube-proxy.yaml file
+  template: src=kube-proxy.yaml.j2 dest=/etc/kubernetes/manifests/kube-proxy.yaml
+
+- name: write kube-scheduler.yaml file
+  template: src=kube-scheduler.yaml.j2 dest=/etc/kubernetes/manifests/kube-scheduler.yaml
+
+- name: write kube-controller-manager.yaml file
+  template: src=kube-controller-manager.yaml.j2 dest=/etc/kubernetes/manifests/kube-controller-manager.yaml
+
+- name: daemon reload
+  shell: systemctl daemon-reload
+
+- name: start flanneld
+  service: name=flanneld state=restarted enabled=yes
+
+- name: start docker
+  service: name=docker state=restarted enabled=yes
+
+- name: start kube-kubelet
+  service: name=kube-kubelet state=restarted enabled=yes
+
+- name: start kube-dns
+  service: name=kube-dns state=restarted enabled=yes

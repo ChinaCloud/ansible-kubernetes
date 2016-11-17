@@ -1,0 +1,12 @@
+# 忽略"inventory.example"外的inventory文件
+inventory
+inventory.*
+!inventory.example
+
+# 忽略内部ssh角色
+roles/ssh/
+ssh.yml
+
+# 忽略skydns角色
+roles/skydns
+skydns.yml

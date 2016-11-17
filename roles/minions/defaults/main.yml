@@ -1,0 +1,14 @@
+# Kubernetes
+k8s_version: v1.3.7
+flanneld_version: v0.5.3
+dns_domain: cluster.local
+log_level: 3
+
+# Kubernetes addons列表, 空列表为不启用任何addon
+enabled_addons: []
+
+# Docker
+docker_api_port: 2376
+
+# flanneld
+pod_network: 10.2.0.0/16

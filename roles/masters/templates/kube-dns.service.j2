@@ -1,0 +1,16 @@
+[Unit]
+Description=Kubernetes DNS
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Requires=kube-kubelet.service
+After=kube-kubelet.service
+
+[Service]
+ExecStart=/opt/bin/kube-dns --kube-master-url=http://127.0.0.1:8080 \
+--dns-port=53 \
+--domain={{ dns_domain }} \
+--v={{ log_level }}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

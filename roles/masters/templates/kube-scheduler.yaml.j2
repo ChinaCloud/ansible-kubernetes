@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+  labels:
+    name: kube-scheduler
+spec:
+  hostNetwork: true
+  containers:
+  - name: kube-scheduler
+    image: {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/hyperkube:v1.3.7
+    command:
+    - /hyperkube
+    - scheduler
+    - --master=http://127.0.0.1:8080
+    - --leader-elect=true
+    livenessProbe:
+      httpGet:
+        host: 127.0.0.1
+        path: /healthz
+        port: 10251
+      initialDelaySeconds: 15
+      timeoutSeconds: 1

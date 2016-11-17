@@ -1,0 +1,19 @@
+---
+
+- name: create /opt/bin directory
+  file: path=/opt/bin state=directory mode=0755
+
+- name: copy etcd
+  copy: src=etcd-{{ etcd_version }} dest=/opt/bin/etcd mode=0755
+
+- name: copy etcdctl
+  copy: src=etcdctl-{{ etcd_version }} dest=/opt/bin/etcdctl mode=0755
+
+- name: wirte etcd service
+  template: src=etcd.service.j2 dest=/etc/systemd/system/etcd.service
+
+- name: daemon reload
+  shell: systemctl daemon-reload
+
+- name: start etcd
+  service: name=etcd state=restarted enabled=yes

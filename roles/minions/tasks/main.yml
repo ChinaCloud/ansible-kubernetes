@@ -1,0 +1,57 @@
+---
+
+# check variables
+- fail: msg="Bailing out. this play requires 'registry_host'"
+  when: registry_host is not defined
+
+- fail: msg="Bailing out. this play requires 'registry_port'"
+  when: registry_port is not defined
+
+# tasks
+- name: create /opt/bin directory
+  file: path=/opt/bin state=directory mode=0755
+
+- name: copy flanneld
+  copy: src=flanneld-{{ flanneld_version }} dest=/opt/bin/flanneld mode=0755
+
+- name: copy kubelet
+  copy: src=kubelet-{{ k8s_version }} dest=/opt/bin/kubelet mode=0755
+
+- name: copy kube-proxy
+  copy: src=kube-proxy-{{ k8s_version }} dest=/opt/bin/kube-proxy mode=0755
+
+- name: copy wupiao
+  copy: src=wupiao dest=/opt/bin/wupiao mode=0755
+
+- name: write flanneld.service
+  template: src=flanneld.service.j2 dest=/etc/systemd/system/flanneld.service
+
+- name: write docker.service
+  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+
+- name: copy kube-proxy.service file
+  template: src=kube-proxy.service.j2 dest=/etc/systemd/system/kube-proxy.service
+
+- name: copy kube-kubelet.service file
+  template: src=kube-kubelet.service.j2 dest=/etc/systemd/system/kube-kubelet.service
+
+- name: delete /etc/kubernetes/manifests directory
+  file: path=/etc/kubernetes/manifests state=absent
+
+- name: create /etc/kubernetes/manifests directory
+  file: path=/etc/kubernetes/manifests state=directory mode=0755
+
+- name: daemon reload
+  shell: systemctl daemon-reload
+
+- name: start flanneld
+  service: name=flanneld state=restarted enabled=yes
+
+- name: start docker
+  service: name=docker state=restarted enabled=yes
+
+- name: start kube-proxy
+  service: name=kube-proxy state=restarted enabled=yes
+
+- name: start kube-kubelet
+  service: name=kube-kubelet state=restarted enabled=yes

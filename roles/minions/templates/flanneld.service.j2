@@ -1,0 +1,21 @@
+[Unit]
+Description=Network fabric for containers
+Documentation=https://github.com/coreos/flannel
+Requires=etcd.service
+After=etcd.service
+
+[Service]
+Environment="TMPDIR=/var/tmp/"
+Environment="FLANNEL_NOTIFY_SOCKET=/run/flannel/sd.sock"
+Environment="FLANNELD_IFACE={{ ansible_default_ipv4.address }}"
+Environment="FLANNELD_ETCD_ENDPOINTS=http://127.0.0.1:2379"
+ExecStartPre=/sbin/modprobe ip_tables
+ExecStartPre=/usr/bin/mkdir -p /run/flannel
+ExecStartPre=/opt/bin/etcdctl set /coreos.com/network/config '{"Network":"{{ pod_network }}", "SubnetLen": 26, "Backend": {"Type": "host-gw"}}'1}}'
+ExecStart=/opt/bin/flanneld --ip-masq=true
+Type=notify
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

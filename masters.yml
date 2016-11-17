@@ -1,0 +1,9 @@
+---
+
+# ansible's bug: https://github.com/ansible/ansible-examples/issues/155
+- hosts: all
+  tasks: []
+
+- hosts: masters
+  roles:
+    - masters

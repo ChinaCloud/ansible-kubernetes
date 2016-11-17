@@ -1,0 +1,15 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.com
+Requires=flanneld.service
+After=flanneld.service
+
+[Service]
+EnvironmentFile=-/run/flannel/subnet.env
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:{{ docker_api_port }} -H unix:///var/run/docker.sock --bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU} --ip-masq=false --insecure-registry {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

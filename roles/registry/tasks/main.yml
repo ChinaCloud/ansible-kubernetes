@@ -1,0 +1,83 @@
+---
+
+- fail: msg="Bailing out. this play requires 'registry_host'"
+  when: registry_host is not defined
+
+- fail: msg="Bailing out. this play requires 'registry_port'"
+  when: registry_port is not defined
+
+- name: cp docker service
+  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+
+- name: daemon reload
+  shell: systemctl daemon-reload
+
+- name: start docker.service
+  service: name=docker state=started enabled=yes
+
+- name: upload registry image
+  copy: src=registry-2.tar dest=/tmp/registry-2.tar
+
+- name: upload pause image
+  copy: src=gcr.io~google_containers~pause-amd64~3.0.tar dest=/tmp/gcr.io~google_containers~pause-amd64~3.0.tar
+
+- name: upload hyperkube image
+  copy: src=gcr.io-google_containers-hyperkube-v1.3.7.tar dest=/tmp/gcr.io-google_containers-hyperkube-v1.3.7.tar
+
+- name: load registry image
+  shell: docker load -i /tmp/registry-2.tar
+
+- name: load pause image
+  shell: docker load -i /tmp/gcr.io~google_containers~pause-amd64~3.0.tar
+
+- name: load hyperkube image
+  shell: docker load -i /tmp/gcr.io-google_containers-hyperkube-v1.3.7.tar
+
+- name: copy pip-7.1.2.tar.gz
+  copy: src=pip-7.1.2.tar.gz dest=/tmp/pip-7.1.2.tar.gz
+
+- name: install pip
+  shell: easy_install /tmp/pip-7.1.2.tar.gz
+
+- name: copy docker-py
+  copy: src=docker-py dest=/tmp/
+
+- name: install docker-py
+  shell: pip install -U --no-index --find-links=file:///tmp/docker-py docker-py
+
+# - name: Reboot, make docker-py avaliable
+#   shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+#   async: 1
+#   poll: 0
+#   sudo: true
+#   ignore_errors: true
+#
+# - name: Waiting for servers to come back
+#   local_action: wait_for host={{ inventory_hostname }} port=22 state=started delay=10
+
+- name: create docker registry
+  docker:
+    name: registry
+    image: registry:2
+    restart_policy: always
+    privileged: yes
+    ports:
+      - "0.0.0.0:{{ registry_port }}:5000"
+    volumes:
+      - "{{ volume_path }}:/var/lib/registry"
+    env:
+      REGISTRY_DELETE_ENABLED: true
+  ignore_errors: true
+
+- name: tag pause image
+  shell: docker tag gcr.io/google_containers/pause-amd64:3.0 {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/pause-amd64:3.0
+
+- name: push pause image
+  shell: docker push {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/pause:0.8.0
+
+- name: tag hyperkube image
+  shell: docker tag gcr.io/google_containers/hyperkube:v1.3.7 {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/hyperkube:v1.3.7
+
+- name: push hyperkube image
+  shell: docker push {{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/hyperkube:v1.3.7
+

@@ -1,0 +1,15 @@
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.whl filter=lfs diff=lfs merge=lfs -text
+*.rpm filter=lfs diff=lfs merge=lfs -text
+roles/etcd/files/etcdctl-v2.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/etcd/files/etcd-v2.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/masters/files/flanneld-v0.5.3 filter=lfs diff=lfs merge=lfs -text
+roles/masters/files/flanneld-v0.6.2 filter=lfs diff=lfs merge=lfs -text
+roles/masters/files/kubectl-v1.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/masters/files/kube-dns-v1.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/masters/files/kubelet-v1.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/minions/files/flanneld-v0.5.3 filter=lfs diff=lfs merge=lfs -text
+roles/minions/files/flanneld-v0.6.2 filter=lfs diff=lfs merge=lfs -text
+roles/minions/files/kubelet-v1.3.7 filter=lfs diff=lfs merge=lfs -text
+roles/minions/files/kube-proxy-v1.3.7 filter=lfs diff=lfs merge=lfs -text

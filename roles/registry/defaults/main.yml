@@ -1,0 +1,2 @@
+volume_path: /srv/registry
+docker_api_port: 2376

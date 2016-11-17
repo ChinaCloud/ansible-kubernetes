@@ -1,0 +1,23 @@
+[Unit]
+Description=etcd
+
+[Service]
+Environment=ETCD_NAME={{ ansible_default_ipv4.address }}
+Environment=ETCD_DATA_DIR=/var/lib/etcd2/{{ ansible_default_ipv4.address }}.etcd
+Environment=ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{ ansible_default_ipv4.address }}:2380
+Environment=ETCD_LISTEN_PEER_URLS=http://{{ ansible_default_ipv4.address }}:2380
+Environment=ETCD_LISTEN_CLIENT_URLS=http://{{ ansible_default_ipv4.address }}:2379,http://127.0.0.1:2379
+Environment=ETCD_ADVERTISE_CLIENT_URLS=http://{{ ansible_default_ipv4.address }}:2379
+Environment=ETCD_INITIAL_CLUSTER_STATE=new
+Environment=ETCD_INITIAL_CLUSTER_TOKEN={{ ectd_token }}
+Environment=ETCD_INITIAL_CLUSTER={% for host in groups['etcd'] %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}=http://{{ hostvars[host]['ansible_default_ipv4']['address']}}:2380{% if not loop.last %},{% endif %}{% endfor %}
+
+
+ExecStartPre=/usr/bin/mkdir -p /var/lib/etcd/{{ ansible_default_ipv4.address }}.etcd
+ExecStart=/opt/bin/etcd
+Restart=always
+RestartSec=10s
+Type=notify
+
+[Install]
+WantedBy=multi-user.target

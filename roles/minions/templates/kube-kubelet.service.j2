@@ -1,0 +1,25 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
+[Service]
+# wait for kubernetes master to be up and ready
+ExecStartPre=/opt/bin/wupiao {{ hostvars[groups['masters'][0]]['ansible_default_ipv4']['address'] }} 8080
+ExecStart=/opt/bin/kubelet \
+  --api-servers=http://{{ hostvars[groups['masters'][0]]['ansible_default_ipv4']['address'] }}:8080 \
+  --register-node=true \
+  --allow-privileged=true \
+  --pod-infra-container-image={{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/pause-amd64:3.0 \
+  --cluster-dns={{ hostvars[groups['masters'][0]]['ansible_default_ipv4']['address'] }} \
+  --cluster-domain={{ dns_domain }} \
+  --hostname-override={{ ansible_default_ipv4.address }} \
+  --config=/etc/kubernetes/manifests \
+  --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml \
+  --tls-cert-file=/etc/kubernetes/ssl/worker-{{ ansible_default_ipv4.address }}.pem \
+  --tls-private-key-file=/etc/kubernetes/ssl/worker-{{ ansible_default_ipv4.address }}-key.pem \
+  --v={{ log_level }}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

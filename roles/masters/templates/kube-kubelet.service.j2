@@ -1,0 +1,20 @@
+[Unit]
+Description=Kubernetes Kubelet Master
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
+[Service]
+ExecStart=/opt/bin/kubelet \
+  --api-servers=127.0.0.1:8080 \
+  --register-schedulable=false \
+  --allow-privileged=true \
+  --cluster-dns=127.0.0.1 \
+  --cluster-domain={{ dns_domain }} \
+  --hostname-override={{ ansible_default_ipv4.address }} \
+  --pod-infra-container-image={{ registry_host }}{% if registry_port != 80 %}:{{ registry_port }}{% endif %}/mir/pause-amd64:3.0 \
+  --config=/etc/kubernetes/manifests \
+  --v={{ log_level }}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

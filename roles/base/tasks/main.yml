@@ -1,0 +1,29 @@
+---
+
+- name: stop firewalld
+  service: name=firewalld state=stopped enabled=no
+
+# 内网情况下不能执行"yum update -y", 屏蔽此步骤
+# - name: upgrade all packages
+#   yum: name=* state=latest update_cache=yes
+
+- name: create /tmp/docker-install directory
+  file: path=/tmp/docker-install state=directory mode=0755
+
+- name: copy libseccomp-2.2.1-1.el7.x86_64.rpm
+  copy: src=libseccomp-2.2.1-1.el7.x86_64.rpm dest=/tmp/docker-install/libseccomp-2.2.1-1.el7.x86_64.rpm
+
+- name: copy libtool-ltdl-2.4.2-21.el7_2.x86_64.rpm
+  copy: src=libtool-ltdl-2.4.2-21.el7_2.x86_64.rpm dest=/tmp/docker-install/libtool-ltdl-2.4.2-21.el7_2.x86_64.rpm
+
+- name: copy docker-engine-1.12.1-1.el7.centos.x86_64.rpm
+  copy: src=docker-engine-1.12.1-1.el7.centos.x86_64.rpm dest=/tmp/docker-install/docker-engine-1.12.1-1.el7.centos.x86_64.rpm
+
+- name: copy docker-engine-selinux-1.12.1-1.el7.centos.noarch.rpm
+  copy: src=docker-engine-selinux-1.12.1-1.el7.centos.noarch.rpm dest=/tmp/docker-install/docker-engine-selinux-1.12.1-1.el7.centos.noarch.rpm
+
+- name: install docker engine
+  yum: name=/tmp/docker-install/libseccomp-2.2.1-1.el7.x86_64.rpm,/tmp/docker-install/libtool-ltdl-2.4.2-21.el7_2.x86_64.rpm,/tmp/docker-install/docker-engine-1.12.1-1.el7.centos.x86_64.rpm,/tmp/docker-install/docker-engine-selinux-1.12.1-1.el7.centos.noarch.rpm state=present
+
+- name: add user developer, password is "developer"
+  user: name=developer shell=/bin/bash groups=docker password=$6$c98hRlExQbbpNQ03$1CPJh5BvhguFl91gjd7gedGbb5f7rBSPnsjXUTeiC9u1Ze1zkzSRI7onRvL2i2syF.FGDBD1kEI.I3zOBkyDj.

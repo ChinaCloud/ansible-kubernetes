@@ -1,0 +1,5 @@
+---
+
+- hosts: machines
+  roles:
+    - base

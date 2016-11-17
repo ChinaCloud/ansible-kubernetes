@@ -1,0 +1,9 @@
+---
+
+- hosts: masters
+  roles:
+    - k8s-ssh
+
+- hosts: minions
+  roles:
+    - k8s-ssh
