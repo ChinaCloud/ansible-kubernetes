@@ -29,6 +29,10 @@
 
 ## 准备
 
+* Step 1: [准备环境](docs/ready-for-install/ENVIRONMENT.md)
+* Step 2: [安装Ansible](docs/ready-for-install/ANSIBLE_INSTALLATION.md)
+
+
 ## 快速开始
 
 * Step 1: [创建Inventory文件](docs/getting-started-guides/inventory.md)
