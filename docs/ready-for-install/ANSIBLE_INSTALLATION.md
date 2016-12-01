@@ -37,7 +37,7 @@ $ rpm -ivh *.rpm
 ```sh
 $ git clone git://github.com/ansible/ansible.git --recursive
 # or get the ansibel packages from directory "packages"
-# tar -xvzf  ansible.tar.gz
+$ tar -xvzf  ansible.tar.gz
 $ cd ./ansible
 $ python setup.py install
 ```
@@ -51,8 +51,8 @@ Fedora 用户可直接安装Ansible, 但RHEL或CentOS用户,需要 配置 EPEL
 
 配置epel源：
 ```sh
-# wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-# rpm -ivh epel-release-7-5.noarch.rpm
+$ wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+$ rpm -ivh epel-release-7-5.noarch.rpm
 ```
 安装ansible
 ```sh
