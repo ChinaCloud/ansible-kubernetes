@@ -1,13 +1,14 @@
 # Inventory文件
-###### Topics
+#### Topics
 * [主机与组](#主机与组)
 * [主机变量](#主机变量)
 * [组的变量](#组的变量)
 * [Inventory参数的说明](#Inventory参数的说明)
+* [example](#example)
 
 ### 主机与组
 
-###### 主机
+##### 主机
 
 假设你有一些静态IP地址,希望设置一些别名,但不是在系统的 host 文件中设置,又或者你是通过隧道在连接,那么可以设置如下:
 
@@ -95,4 +96,75 @@ ansible_python_interpreter
       不是 2.X 版本的 Python.我们不使用 "/usr/bin/env" 机制,因为这要求远程用户的路径设置正确,且要求 "python" 可执行程序名不可为 python以外的名字(实际有可能名为python26).
 
       与 ansible_python_interpreter 的工作方式相同,可设定如 ruby 或 perl 的路径....
+```
+
+### example
+
+```ssh
+# example
+```
+
+```ssh
+# 打开inventory文件
+$ cat ./inventory
+```
+```ssh
+# 设置主机的别名，登陆的用户名和密码
+registry ansible_host=172.16.xx.12 ansible_user=root ansible_ssh_pass=centos
+dns ansible_host=172.16.xx.13 ansible_user=root
+master ansible_host=172.16.80.xx.14 ansible_user=root
+minion01 ansible_host=172.16.xx.15 ansible_user=root
+minion02 ansible_host=172.16.xx.16 ansible_user=root
+
+# 创建主机组
+[machines]
+master
+minion01
+minion02
+
+# 创建dns组
+[dns]
+dns
+
+[dns:vars]
+etcd_endpoints=http://172.16.80.xx.14:2379
+
+
+# 设置registry安装主机
+[registry]
+registry
+
+[registry:vars]
+registry_host=172.16.80.94
+registry_port=80
+
+# 创建etcd集群的主机组
+[etcd]
+master
+minion01
+minion02
+
+# kubernetes集群环境
+[kubernetes]
+master
+minion01
+minion02
+
+# kubernetes集群中master节点，并设置镜像仓库
+[masters]
+master
+
+[masters:vars]
+registry_host=172.16.80.94
+registry_port=80
+
+# kubernetes集群中minion节点,并设置镜像仓库
+[minions]
+minion01
+minion02
+
+[minions:vars]
+registry_host=172.16.80.94
+registry_port=80
+
 ```

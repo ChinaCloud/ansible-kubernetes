@@ -36,7 +36,7 @@
 ## 快速开始
 
 * Step 1: [创建Inventory文件](docs/getting-started-guides/inventory.md)
-* Step 2: 关闭防火墙, 安装Docker
+* Step 2: [关闭防火墙, 安装Docker](docs/getting-started-guides/installdocker.md)
 * Step 3: 安装容器镜像仓库
 * Step 4: 部署Etcd集群
 * Step 5: 部署Kubernetes内部认证配置
