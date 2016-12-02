@@ -6,6 +6,10 @@
 * [Inventory参数的说明](#Inventory参数的说明)
 * [example](#example)
 
+Ansible 可同时操作属于一个组的多台主机,组和主机之间的关系通过 inventory 文件配置. 默认的文件路径为 /etc/ansible/hosts
+
+除默认文件外,你还可以同时使用多个 inventory 文件(后面会讲到),也可以从动态源,或云上拉取 inventory 配置信息. 我们这里采用的是单独的inventory文件
+
 ### 主机与组
 
 ##### 主机
