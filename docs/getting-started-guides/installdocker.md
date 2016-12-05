@@ -54,7 +54,7 @@ $ cat ./roles/base/tasks/main.yml
 
 
 * 创建playbook中的“play”, 即base.yml,然后指定主机组执行动作
----
+
 ```ssh
 - hosts: machines
   roles:
@@ -74,6 +74,7 @@ $ cat ./roles/base/tasks/main.yml
 ### 通过playbook安装docker
 
 * 首先我们创建一个目录来存放docker源文件
+
 ```ssh
 - name: create /tmp/docker-install directory
   file: path=/tmp/docker-install state=directory mode=0755

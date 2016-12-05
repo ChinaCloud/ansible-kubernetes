@@ -1,10 +1,10 @@
-registry ansible_host=172.16.80.94   ansible_user=root
-machine1 ansible_host=172.16.101.189 ansible_user=root
-machine2 ansible_host=172.16.101.192 ansible_user=root
-machine3 ansible_host=172.16.101.193 ansible_user=root
-machine4 ansible_host=172.16.101.194 ansible_user=root
-machine5 ansible_host=172.16.101.195 ansible_user=root
-machine6 ansible_host=172.16.101.196 ansible_user=root
+registry ansible_host=172.16.xx.xx   ansible_user=root
+machine1 ansible_host=172.16.xx.xx ansible_user=root
+machine2 ansible_host=172.16.xx.xx ansible_user=root
+machine3 ansible_host=172.16.xx.xx ansible_user=root
+machine4 ansible_host=172.16.xx.xx ansible_user=root
+machine5 ansible_host=172.16.xx.xx ansible_user=root
+machine6 ansible_host=172.16.xx.xx ansible_user=root
 
 [machines]
 machine1
@@ -18,7 +18,7 @@ machine6
 registry
 
 [registry:vars]
-registry_host=172.16.80.94
+registry_host=172.16.80.xx
 registry_port=80
 
 [etcd]
@@ -41,7 +41,7 @@ machine6
 machine1
 
 [masters:vars]
-registry_host=172.16.80.94
+registry_host=172.16.xx.xx
 registry_port=80
 
 [minions]
@@ -52,5 +52,5 @@ machine5
 machine6
 
 [minions:vars]
-registry_host=172.16.80.94
+registry_host=172.16.xx.xx
 registry_port=80
