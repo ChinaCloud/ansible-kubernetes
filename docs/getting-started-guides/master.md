@@ -12,8 +12,11 @@
 # 在master节点上，创建可执行文件存放路径
 - name: create /opt/bin directory
   file: path=/opt/bin state=directory mode=0755
-  
+
+#  
 # copy flanneld, kubelet, kube-dns, kubectl可执行文件到目标机存放路径
+# 其中变量，k8s_version，flanneld_version等在default/main.yml文件中声明和定义
+#
 - name: copy flanneld
   copy: src=flanneld-{{ flanneld_version }} dest=/opt/bin/flanneld mode=0755
 - name: copy flanneld

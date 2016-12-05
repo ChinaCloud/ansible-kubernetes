@@ -10,7 +10,7 @@
 * 创建task列表
 
 ```ssh
-# 步骤与创建master节点差不多，只是创建minion的时候需要启动kube-proxy服务
+# 与创建master节点差不多，只是创建minion的时候需要在每个minion启动kube-proxy服务
 - name: copy kube-proxy
   copy: src=kube-proxy-{{ k8s_version }} dest=/opt/bin/kube-proxy mode=0755
 ```

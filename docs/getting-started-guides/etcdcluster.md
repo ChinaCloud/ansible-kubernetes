@@ -6,10 +6,10 @@
   roles:
     - etcd
 ```
-* 创建人物列表
+* 创建任务列表
 
 ```ssh
-# 创建etcd可执行文件存放路径
+# 创建etcd可执行文件的存放路径
 - name: create /opt/bin directory
   file: path=/opt/bin state=directory mode=0755
   
