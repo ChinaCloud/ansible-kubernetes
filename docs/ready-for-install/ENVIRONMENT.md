@@ -26,7 +26,8 @@ $ cat /etc/hosts
 172.16.xx.5 minon1
 ...
 ..
-``
+```
+
 * 用ssh-keygen创建公钥
 
 
@@ -57,7 +58,7 @@ The key's randomart image is:  
 
 > 输入后，会提示创建.ssh/id_rsa、id_rsa.pub的文件，其中第一个为密钥，第二个为公钥。过程中会要求输入密码，为了ssh访问过程无须密码，可以直接回车 。
 
-* 将公钥复制到被管理机器Server2和Server3下的.ssh目录下
+* 将公钥复制到被管理机器master和minion的.ssh目录下
 
 ```ssh
 [root@ansible .ssh]#  scp id_rsa.pub root@172.16.xx.xx:~/.ssh/ 
@@ -65,6 +66,7 @@ The key's randomart image is:  
 
 
 * 到master和minions目录下执行下面的命令
+
 ```ssh
 cat id_dsa.pub >> ~/.ssh/authorized_keys 
 ```
