@@ -45,6 +45,25 @@
 
 ## 技巧提示
 
+* 除了以上可以单步执行部署步骤以外，还可以一键部署，如下：
+```ssh
+$ cat ./all-in-one.yml
+
+# Step 1, 关闭防火墙, 安装Docker
+- include: base.yml
+# Step 2, 安装容器镜像仓库
+- include: registry.yml
+# Step 3, 部署Etcd集群
+- include: etcd.yml
+# Step 4, 部署Kubernetes ssh安全配置
+- include: k8s-ssh.yml
+# Step 5, 部署Kubernetes Master节点
+- include: masters.yml
+# Step 6, 部署Kubernetes Minion节点
+- include: minions.yml
+```
+你可以根据需要在此文件中修改
+
 ## 已知问题
 
 ## 贡献者
