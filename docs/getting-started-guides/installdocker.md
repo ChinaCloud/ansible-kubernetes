@@ -15,12 +15,14 @@ Playbooks 的格式是YAML. playbook 由一个或多个 ‘plays’ 组成.它的内容是一个以 ‘
   roles:
     - base
 ```
+> Roles 的概念来自于这样的想法：通过 include 包含文件并将它们组合在一起，组织成一个简洁、可重用的抽象对象。这种方式可使你将注意力更多地放在大局上，只有在需要时才去深入了解细节。以下roles为base所include的内容(包含了task列表和task执行时所依赖的文件):
 ```ssh
-# dns.yml
----
-- hosts: dns
-  roles:
-    - dns
+--|roles
+-----base
+------files
+--------docker-engine-1.12.1-1.el7.centos.x86_64.rpm
+------tasks
+--------main.yml
 ```
 
 在基本层次的应用中,一个任务是一个对 ansible 模块的调用. ‘plays’ 好似音符,playbook 好似由 ‘plays’ 构成的曲谱,通过 playbook,可以编排步骤进行多机器的部署,比如在 [machines] 组的所有机器上运行一定的步骤, 然后在 [dns]组运行一些步骤
@@ -67,6 +69,7 @@ $ cat ./roles/base/tasks/main.yml
 ```
 >上面是一种基本的 task 的定义,service moudle 使用 key=value 格式的参数,这也是大多数 module 使用的参数格式。每一个 task 必须有一个名称 name,这样在运行 playbook 时,从其输出的任务执行信息中可以很好的辨别出是属于哪一个 task 的. 如果没有定义 name,‘action’ 的值将会用作输出信息中标记特定的 task.
 
+* 执行playbook ansible_playbook base.yml -i inventory
 
 ### 通过playbook安装docker
 
@@ -99,3 +102,7 @@ $ cat ./roles/base/tasks/main.yml
 ```
 > 这里有点区别的是采用了shell moudule，playbook将在指定主机执行shell命令。
 
+```ssh
+# 执行playbook
+ansible-playbook base.yml -i inventory
+```

@@ -37,11 +37,11 @@
 
 * Step 1: [创建Inventory文件](docs/getting-started-guides/inventory.md)
 * Step 2: [关闭防火墙, 安装Docker](docs/getting-started-guides/installdocker.md)
-* Step 3: 安装容器镜像仓库
-* Step 4: 部署Etcd集群
-* Step 5: 部署Kubernetes内部认证配置
-* Step 6: 部署Kubernetes Master节点
-* Step 7: 部署Kubernetes Minion节点
+* Step 3: 安装容器镜像仓库(docs/getting-started-guides/installregistry.md)
+* Step 4: 部署Etcd集群(docs/getting-started-guides/etcdcluster.md)
+* Step 5: 部署Kubernetes内部认证配置(docs/getting-started-guides/k8s-ssh.md)
+* Step 6: 部署Kubernetes Master节点(docs/getting-started-guides/master.md)
+* Step 7: 部署Kubernetes Minion节点(docs/getting-started-guides/minions.md)
 
 ## 技巧提示
 
