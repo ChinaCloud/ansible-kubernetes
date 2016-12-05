@@ -62,9 +62,14 @@ $ cat ./all-in-one.yml
 # Step 6, 部署Kubernetes Minion节点
 - include: minions.yml
 ```
-你可以根据需要在此文件中修改
+> 以上步骤将会从上到下依次执行，你也可以根据需要在此文件中修改
 
 ## 已知问题
+
+1. 配置k8s-ssh认证服务的时候，执行脚init-ca-ssl.sh和init-ssl.sh会报错， 可能的原因是因为上传的时候造成了脚本格式错乱，因此，你可以利用dos2unix工具格式化脚本
+2. 有些虚拟机可能没有防火墙配置，此时你应该注释掉base中对防火墙的设置.
+3. 
+
 
 ## 贡献者
 

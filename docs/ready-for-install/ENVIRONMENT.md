@@ -1,5 +1,9 @@
+
+#### 准备主机
+
+
 > 所有机器均为CentOS7操作系统
-* 准备主机
+
 | 主机  | 角色 | IP |
 | :---: | :---: | :---: |
 | node01 | master | 172.16.xx.2 |
@@ -9,8 +13,12 @@
 | node05 | minon2 | 172.16.xx.6 |
 | node06 | ansible | 172.16.xx.7 |
 
-* 建立ansible与各节点的连接，设置ssh-keygen无秘钥登陆
-1. 修改/etc/hosts文件
+#### 建立ansible与各节点的连接，设置ssh-keygen无秘钥登陆
+
+
+* 修改/etc/hosts文件
+
+
 ```ssh
 $ cat /etc/hosts
 172.16.xx.2 master
@@ -19,9 +27,10 @@ $ cat /etc/hosts
 ...
 ..
 ``
-2. 用ssh-keygen创建公钥
-```ssh
+* 用ssh-keygen创建公钥
 
+
+```ssh
 [root@Server1 ~]# ssh-keygen -t rsa  
 Generating public/private rsa key pair.  
 Enter file in which to save the key(/root/.ssh/id_rsa):  
@@ -45,19 +54,23 @@ The key's randomart image is:  
 |..E==*... |  
 +-----------------+
 ```
+
 > 输入后，会提示创建.ssh/id_rsa、id_rsa.pub的文件，其中第一个为密钥，第二个为公钥。过程中会要求输入密码，为了ssh访问过程无须密码，可以直接回车 。
 
-3. 将公钥复制到被管理机器Server2和Server3下的.ssh目录下
+* 将公钥复制到被管理机器Server2和Server3下的.ssh目录下
 
 ```ssh
 [root@ansible .ssh]#  scp id_rsa.pub root@172.16.xx.xx:~/.ssh/ 
 ```
-4. 到master和minions目录下执行下面的命令
+
+
+* 到master和minions目录下执行下面的命令
 ```ssh
 cat id_dsa.pub >> ~/.ssh/authorized_keys 
 ```
 
-5. 验证使用SSH IP地址的方式无密码访问
+* 验证使用SSH IP地址的方式无密码访问
+
 ```ssh
 $ ssh master
 $ ssh minion01
