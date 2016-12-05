@@ -71,7 +71,7 @@ The key's randomart image is:  
 cat id_dsa.pub >> ~/.ssh/authorized_keys 
 ```
 
-* 验证使用SSH IP地址的方式无密码访问
+* 验证使用SSH IP地址或者域名的方式无密码访问
 
 ```ssh
 $ ssh master
