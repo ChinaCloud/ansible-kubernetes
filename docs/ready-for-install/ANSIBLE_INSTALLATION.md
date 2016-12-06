@@ -16,7 +16,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具有批量部署的是ansible所运
 - 主机的系统可以是 Red Hat, Debian, CentOS, OS X, BSD的各种版本,这里只用的是centos7
 
 ### 安装ansible对托管节点的要求：
-- 安装python2.6h或者Python2.7
+- 安装python2.6或者Python2.7
 - 系统要求同上
 - 能够ssh通信
 

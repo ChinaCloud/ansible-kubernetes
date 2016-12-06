@@ -10,7 +10,7 @@
 
 | 软件  | 版本 |
 | :---: | :---: |
-| Docker Engine | v1.12.1 |
+| Docker Engine | v1.11.2 |
 | Docker Registry | v2.0 |
 | Etcd | v2.3.7 |
 | Flannel | v0.5.3 |
@@ -30,7 +30,7 @@
 ## 准备
 
 * Step 1: [准备环境](docs/ready-for-install/ENVIRONMENT.md)
-* Step 2: [安装Ansible](docs/ready-for-install/ANSIBLE_INSTALLATION.md)
+* Step 2: [安装ansible](docs/ready-for-install/ANSIBLE_INSTALLATION.md)
 
 
 ## 快速开始
@@ -72,8 +72,7 @@ $ cat ./all-in-one.yml
 	
 	2) ssh登陆不上，重新验证ssh-keygen无秘钥登陆
 	
-* 有些虚拟机可能没有防火墙配置，此时你应该注释掉base中对防火墙的设置.
-* 最好使用docker 1.11版本，因为在docker 1.12中有时候会出现pause起不来的现象
+* 最好使用docker 1.11版本，因为在docker 1.12中有时候会出现pause容器不能运行的现象
 
 
 ## 贡献者
